@@ -1,13 +1,44 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-
-import NxWelcome from './nx-welcome';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addPepperoni,
+  addSausage,
+  removePepperoni,
+  removeSausage,
+  selectHasPepperoni,
+  selectHasSausage,
+  selectPizzaImage,
+  selectPizzaPrice,
+} from './store';
 
 export function App() {
+  const hasPepperoni = useSelector(selectHasPepperoni);
+  const hasSausage = useSelector(selectHasSausage);
+  const price = useSelector(selectPizzaPrice);
+  const imageUrl = useSelector(selectPizzaImage);
+  const dispatch = useDispatch();
   return (
-    <div>
-      <NxWelcome title="redux-pizza-example" />
-    </div>
+    <>
+      <img
+        src={imageUrl}
+        style={{ height: '200px', width: '200px', display: 'block' }}
+      />
+      <button
+        onClick={() => {
+          dispatch(hasPepperoni ? removePepperoni({}) : addPepperoni({}));
+        }}
+      >
+        {hasPepperoni ? 'Remove' : 'Add'} Pepperonni
+      </button>
+      <button
+        onClick={() => {
+          dispatch(hasSausage ? removeSausage({}) : addSausage({}));
+        }}
+      >
+        {hasSausage ? 'Remove' : 'Add'} Sausage
+      </button>
+      <h1>Price: ${price}</h1>
+    </>
   );
 }
 
